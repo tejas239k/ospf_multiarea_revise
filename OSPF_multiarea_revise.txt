@@ -1,0 +1,146 @@
+R1
+enable
+configure terminal
+hostname R1
+interface fa0/0
+ip address 192.168.12.1 255.255.255.0
+no shutdown
+exit
+interface fa0/1
+ip address 192.168.13.1 255.255.255.0
+no shutdown
+exit
+interface loopback 0
+ip address 1.1.1.1 255.255.255.0
+exit
+router ospf 1
+network 192.168.12.0 0.0.0.255 area 0
+network 192.168.13.0 0.0.0.255 area 0
+network 1.1.1.0 0.0.0.255 area 0
+
+R2
+enable
+configure terminal
+hostname R2
+interface fa0/0
+ip address 192.168.12.2 255.255.255.0
+no shutdown
+exit
+interface fa0/1
+ip address 192.168.23.2 255.255.255.0
+no shutdown
+exit
+interface fa1/0
+ip address 192.168.25.2 255.255.255.0
+no shutdown
+exit
+interface loopback 0
+ip address 2.2.2.2 255.255.255.0
+exit
+router ospf 1
+network 192.168.12.0 0.0.0.255 area 0
+network 192.168.23.0 0.0.0.255 area 0
+network 192.168.25.0 0.0.0.255 area 1
+network 2.2.2.0 0.0.0.255 area 0
+
+R3
+enable
+configure terminal
+hostname R3
+interface fa0/0
+ip address 192.168.23.3 255.255.255.0
+no shutdown
+exit
+interface fa0/1
+ip address 192.168.13.3 255.255.255.0
+no shutdown
+exit
+interface fa1/0
+ip address 192.168.34.3 255.255.255.0
+no shutdown
+exit
+interface loopback 0
+ip address 3.3.3.3 255.255.255.0
+exit
+router ospf 1
+network 192.168.13.0 0.0.0.255 area 0
+network 192.168.23.0 0.0.0.255 area 0
+network 192.168.34.0 0.0.0.255 area 2
+network 3.3.3.0 0.0.0.255 area 0
+
+R4
+enable
+configure terminal
+hostname R4
+interface fa0/0
+ip address 192.168.34.4 255.255.255.0
+no shutdown
+exit
+interface loopback 0
+ip address 4.4.4.4 255.255.255.0
+exit
+router ospf 1
+network 192.168.34.0 0.0.0.255 area 2
+network 4.4.4.0 0.0.0.255 area 2
+
+R5
+enable
+configure terminal
+hostname R5
+interface fa0/0
+ip address 192.168.25.5 255.255.255.0
+no shutdown
+exit
+interface fa0/1
+ip address 192.168.56.5 255.255.255.0
+no shutdown
+exit
+interface loopback 0
+ip address 5.5.5.5 255.255.255.0
+exit
+router ospf 1
+network 192.168.25.0 0.0.0.255 area 1
+network 192.168.56.0 0.0.0.255 area 1
+network 5.5.5.0 0.0.0.255 area 1
+
+R6
+enable
+configure terminal
+hostname R6
+interface fa0/0
+ip address 192.168.56.6 255.255.255.0
+no shutdown
+exit
+interface fa0/1
+ip address 192.168.67.6 255.255.255.0
+no shutdown
+exit
+interface loopback 0
+ip address 6.6.6.6 255.255.255.0
+exit
+router ospf 1
+network 192.168.56.0 0.0.0.255 area 1
+network 192.168.67.0 0.0.0.255 area 1
+network 6.6.6.0 0.0.0.255 area 1
+exit
+router eigrp 100
+network 192.168.67.0
+network 6.6.6.0
+
+router ospf 1
+redistribute eigrp 100 subnet tag 100
+
+R7
+enable
+configure terminal
+hostname R7
+interface fa0/0
+ip address 192.168.67.7 255.255.255.0
+no shutdown
+exit
+interface loopback 0
+ip address 7.7.7.7 255.255.255.0
+exit
+router eigrp 100
+network 192.168.67.0
+network 7.7.7.0
